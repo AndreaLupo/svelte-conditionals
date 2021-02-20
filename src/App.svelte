@@ -1,5 +1,5 @@
 <script>
-  import ContactCard from "./ContactCard.svelte";
+import ContactCard from "./ContactCard.svelte";
 
   let name = "Max";
   let title = "";
@@ -7,7 +7,7 @@
   let description = "";
   let formState = "valid";
 
-  let createdContact;
+  let createdContacts = [];
 
   function addContact() {
     if(name.trim().length == 0 || title.trim().length == 0 ||
@@ -15,12 +15,15 @@
           formState = "invalid";
           return;
     }
-    createdContact = {
+    let createdContact = {
       name: name,
       jobTitle: title,
       imageUrl: image,
       desc: description
     };
+    
+    // push doesn't work to update arrays!
+    createdContacts = [...createdContacts, createdContact];
     formState = "done"; 
   }
 
@@ -52,14 +55,16 @@
   </div>
 </div>
 
+<!-- every time I click, add a new contact card (if form is valid!) -->
 <button on:click={addContact}>Add contact card</button>
 
-{#if formState === "done"}
-  <ContactCard userName={createdContact.name} 
-        jobTitle={createdContact.jobTitle} description={createdContact.desc} 
-        userImage={createdContact.imageUrl} />
-{:else if formState === "invalid"}
+  
+{#if formState === "invalid"}
   <p>Invalid input!</p>
-{:else}
-  <p>Please, enter some data and click the button.</p>
 {/if}
+
+{#each createdContacts as contact}
+  <ContactCard userName={contact.name} 
+    jobTitle={contact.jobTitle} description={contact.desc} 
+    userImage={contact.imageUrl} />
+{/each}
