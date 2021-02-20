@@ -63,8 +63,11 @@ import ContactCard from "./ContactCard.svelte";
   <p>Invalid input!</p>
 {/if}
 
-{#each createdContacts as contact}
+{#each createdContacts as contact, currentIndex}
+  <h2>{currentIndex + 1}</h2>
   <ContactCard userName={contact.name} 
     jobTitle={contact.jobTitle} description={contact.desc} 
     userImage={contact.imageUrl} />
+{:else}
+  <p>Please add new contacts, we found none!</p>
 {/each}
