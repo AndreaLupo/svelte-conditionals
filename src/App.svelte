@@ -16,6 +16,7 @@ import ContactCard from "./ContactCard.svelte";
           return;
     }
     let createdContact = {
+      id: Math.random(),
       name: name,
       jobTitle: title,
       imageUrl: image,
@@ -25,6 +26,15 @@ import ContactCard from "./ContactCard.svelte";
     // push doesn't work to update arrays!
     createdContacts = [...createdContacts, createdContact];
     formState = "done"; 
+  }
+
+  function deleteFirst() {
+    createdContacts = createdContacts.slice(1);
+  }
+
+  function deleteLast() {
+    createdContacts = createdContacts.slice(0, -1);
+
   }
 
 </script>
@@ -57,13 +67,15 @@ import ContactCard from "./ContactCard.svelte";
 
 <!-- every time I click, add a new contact card (if form is valid!) -->
 <button on:click={addContact}>Add contact card</button>
+<button on:click={deleteFirst}>Delete first</button>
+<button on:click={deleteLast}>Delete last</button>
 
   
 {#if formState === "invalid"}
   <p>Invalid input!</p>
 {/if}
 
-{#each createdContacts as contact, currentIndex}
+{#each createdContacts as contact, currentIndex (contact.id)}
   <h2>{currentIndex + 1}</h2>
   <ContactCard userName={contact.name} 
     jobTitle={contact.jobTitle} description={contact.desc} 
