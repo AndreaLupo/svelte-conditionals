@@ -66,7 +66,7 @@ import ContactCard from "./ContactCard.svelte";
 </div>
 
 <!-- every time I click, add a new contact card (if form is valid!) -->
-<button on:click={addContact}>Add contact card</button>
+<button on:click|once={addContact}>Add contact card</button>
 <button on:click={deleteFirst}>Delete first</button>
 <button on:click={deleteLast}>Delete last</button>
 
